@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Android下的配置管理之道之gerrit权限管理 | 马哥私房菜</title><meta name="author" content="mage"><meta name="copyright" content="mage"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="#Android下的配置管理之道之gerrit权限管理 Gerrit Code Review - Access Controls 在Gerrit中访问控制是基于组的。每个用户帐户都是一个或多个组的成员，并授予这些组的访问权和特权。访问权限不能授予单个用户。 gerrit中的组  System Groups 系统组 12345678910111213    Anonymous Users 匿名用户组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android下的配置管理之道之gerrit权限管理">
+<meta property="og:url" content="https://magesfc.github.io/mage/e2cc5e300708461bde262aaae49a064be28321d2/">
+<meta property="og:site_name" content="马哥私房菜">
+<meta property="og:description" content="#Android下的配置管理之道之gerrit权限管理 Gerrit Code Review - Access Controls 在Gerrit中访问控制是基于组的。每个用户帐户都是一个或多个组的成员，并授予这些组的访问权和特权。访问权限不能授予单个用户。 gerrit中的组  System Groups 系统组 12345678910111213    Anonymous Users 匿名用户组">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg">
+<meta property="article:published_time" content="2022-02-23T09:47:18.000Z">
+<meta property="article:modified_time" content="2022-02-23T09:47:18.000Z">
+<meta property="article:author" content="mage">
+<meta property="article:tag" content="android">
+<meta property="article:tag" content="gerrit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg"><link rel="shortcut icon" href="http://www.blackshark.com/favicon.ico"><link rel="canonical" href="https://magesfc.github.io/mage/e2cc5e300708461bde262aaae49a064be28321d2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: mage","link":"链接: ","source":"来源: 马哥私房菜","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android下的配置管理之道之gerrit权限管理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-02-23 17:47:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><style type="text/css">.card-announcement .social-button{margin:.6rem 0 0 0;text-align:center}.card-announcement .social-button a{display:block;background-color:var(--btn-bg);color:var(--btn-color);text-align:center;line-height:2.4;margin:4px 0}.card-announcement .social-button a:hover{background-color:var(--btn-hover-color)}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">152</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">170</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马哥私房菜</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android下的配置管理之道之gerrit权限管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-23T09:47:18.000Z" title="发表于 2022-02-23 17:47:18">2022-02-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-23T09:47:18.000Z" title="更新于 2022-02-23 17:47:18">2022-02-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/android/">android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android下的配置管理之道之gerrit权限管理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>#Android下的配置管理之道之gerrit权限管理</p>
+<p>Gerrit Code Review - Access Controls</p>
+<p>在Gerrit中访问控制是基于组的。每个用户帐户都是一个或多个组的成员，并授予这些组的访问权和特权。访问权限不能授予单个用户。</p>
+<p>gerrit中的组</p>
+<ul>
+<li><p>System Groups 系统组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    Anonymous Users 匿名用户组.所有的用户都自动属于这个组的。没有登陆的用户会属于这个组。</span><br><span class="line">这个组最好只设置read读的权限，其他权限不要设置！</span><br><span class="line">例如，一般的会给repo这个仓库设置个允许匿名访问。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Change Owner 某个提交的拥有者的一个群组。一般不使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Project Owners  项目，也就是某个仓库的拥有者的一个群组。一般的不使用。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Registered Users  所有的注册用户的组，这个会用到一些。</span><br><span class="line">一般的可以给这个组设置个Code-Review -1..+1的权限。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Predefined Groups预定义的群组</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Administrators  管理员群组，权限最大的。</span><br><span class="line">Non-Interactive Users 非交互的群组，一般jenkins帐号，自动化的一些个帐号放到这个组里面。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Account Groups  自己新建的群组。</li>
+<li>LDAP Groups   这个是绑定了ldap服务器才会使用到的群组。这个也算是一种Account Groups 。</li>
+</ul>
+<hr>
+<p>在安装好gerrit。我们会看到2个默认的仓库，或者叫project。<br>第一个，也是非常重要的一个是：All Projects<br><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_1.png" alt="这里写图片描述"></p>
+<p>这个是管理权限的仓库，gerrit是把权限的相关设置存放到一个git仓库下的，这个仓库就是叫All-projects。<br>当然自己也可以定义新建权限的仓库。<br>这个All-projects是所有权限的父仓库。其他的权限仓库都会继承这个。<br><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_2.png" alt="这里写图片描述"></p>
+<p>例如上面图片中的test仓库，他的权限就是继承自All-Projects的。</p>
+<p>当然每个仓库也会有自己独立的权限配置。<br><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_3.png" alt="这里写图片描述"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">图片中的这一段就是这个仓库自己设置的权限。</span><br><span class="line">Reference:	</span><br><span class="line">refs/heads/*</span><br><span class="line">Label Code-Review Exclusive</span><br><span class="line">   release_admin</span><br><span class="line">Label Verified Exclusive</span><br><span class="line">   release_admin</span><br></pre></td></tr></table></figure>
+<p>这个仓库首先有个权限是继承All-Projects，然后自己又有一段自己的权限配置。</p>
+<hr>
+<p>下面我们来看看gerrit中一些特殊的和魔术references(Special and magic references)<br>一般的这个refs在git中也是有使用的,在git中这个refs有2个，一个是给tag用的，一个是给branch用的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">refs/heads/*</span><br><span class="line">refs/tags/*</span><br></pre></td></tr></table></figure>
+<p>一般说来refs&#x2F;* ，就是这个refs命名空间下面的所有的都是有效的references。<br>在gerrit中又增加了其他的特殊的references。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">refs/changes/*</span><br><span class="line">这个命名空间下面存放的是上传的提交。最常用的。</span><br><span class="line">一般的会按照这样的格式来存放：&#x27;refs/changes/&#x27;&lt;last two digits of change number&gt;/ &lt;change number&gt;/ &lt;patch set number&gt;。</span><br><span class="line">例如：refs/changes/68/16068/2，这个可以在也没上面找到的。</span><br><span class="line">git fetch ssh://10.0.12.62:29418/test refs/changes/68/16068/2 &amp;&amp; git cherry-pick FETCH_HEAD</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">refs/meta/config</span><br><span class="line">这个是存放project配置的。常用。</span><br><span class="line"></span><br><span class="line">refs/meta/dashboards/*</span><br><span class="line">这个是存放dashboards的。这个一般常用。</span><br><span class="line"></span><br><span class="line">refs/notes/review</span><br><span class="line">这个是存放review的信息的。一般也不用。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">refs/for/&lt;branch ref&gt;</span><br><span class="line">上传patch，提交patch会先push到这个命名空间分支下面，然后进行review。一切ok了在合入到真正的分支下面。</span><br><span class="line">review和合入操作都是在界面上面进行操作的。</span><br><span class="line">这个refs/for/&lt;branch ref&gt;对应的分支是refs/heads/&lt;branch ref&gt;。</span><br><span class="line">如果不进行走读是可以直接push到refs/heads/&lt;branch ref&gt;下面的，当然这样是需要权限的。一般是不给开发</span><br><span class="line">这个push权限的。一般的开发都是需要进行走读的，都必须push到refs/for/&lt;branch ref&gt;下面的分支上。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">refs/publish/*</span><br><span class="line">这一个是refs/for/&lt;branch ref&gt;的一个替代，一般在界面上直接新建一个提交的时候会是publish状态</span><br><span class="line"></span><br><span class="line">refs/drafts/*</span><br><span class="line">草稿形式的。Push to refs/drafts/* 和 push to refs/for/*是类似的。草稿顾名思义就是还为完成的提交</span><br><span class="line">，不完整的提交等。这个还是比较推荐开发使用的。</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<p>下面贴出来马哥的配置权限的。<br>在这个总的all-projects里面配置的都是管理员相关的权限设置。<br><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_4.png" alt="all-projects 中global capability相关配置"></p>
+<p><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_5.png" alt="all-projects 中refs/* 下面的配置"></p>
+<p>然后，all-android继承all-projects，all-android仓库是马哥自己创建的一个权限仓库。<br>这个里面就设置了refs&#x2F;for&#x2F;*  下面的权限，一般的就是所有的人都能push就行。<br><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_6.png" alt="这里是all-android仓库，这个继承all-projects."><br>然后，这个是all-android仓库里面设置的refs&#x2F;heads&#x2F;*下面的权限，这个比较重要。＋１＋２,submit等权限都是这个下面设置的。<br><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_7.png" alt="这里是all-android仓库，这个继承all-projects.这里是refs/heads/*下面的权限配置"></p>
+<p>最后一个是all-bsp仓库，这个仓库继承all-android，all-bsp仓库也是是马哥自己创建的一个权限仓库。这个里面设置了＋１＋２,submit等权限。</p>
+<p><img src= "/img/loading.gif" data-lazy-src="/./images/Android%E4%B8%8B%E7%9A%84%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86%E4%B9%8B%E9%81%93%E4%B9%8Bgerrit%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86_8.png" alt="这里是all-bsp仓库，这个继承all-android."></p>
+<p>总的说来，对于android项目的几百个仓库，有的仓库是属于bsp组的。有的属于modem组的，等等。<br>这样就按照模块一一设置权限。一般的主要就是设置这个submit的权限。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">submit-type 选项说明 : (详见Wiki)</span><br><span class="line"></span><br><span class="line">*   Fast Forward Only</span><br><span class="line">     change必须是在最新的分支HEAD上，才可以被submit；如若parent不够新，则由change author手工点rebase后，才能submit。</span><br><span class="line"></span><br><span class="line">*   Merge If Necessary</span><br><span class="line">     一般仓库的默认选项。change会被自动merge到代码里，如果change的parent不新，则会生成带“Merge”的一个提交。</span><br><span class="line"></span><br><span class="line">*   Rebase If Necessary</span><br><span class="line">     gerrit会在submit的时候自动帮忙rebase到分支的最新点，如果一些change gerrit rebase不了，则需要change author 手工点rebase后再submit。</span><br><span class="line"></span><br><span class="line">*   Cherry Pick</span><br><span class="line">     不关注change的parent，每次合入的时候都是cherrypick到分支的最新点。使用这个选项会在commit message里增加一些注释。</span><br></pre></td></tr></table></figure>
+
+
+<p>Access Categories</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Abandon</span><br><span class="line">Create Reference</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://magesfc.github.io">mage</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://magesfc.github.io/mage/e2cc5e300708461bde262aaae49a064be28321d2/">https://magesfc.github.io/mage/e2cc5e300708461bde262aaae49a064be28321d2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://magesfc.github.io" target="_blank">马哥私房菜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/android/">android</a><a class="post-meta__tags" href="/tags/gerrit/">gerrit</a></div><div class="post_share"><div class="social-share" data-image="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mage/b1cf003423f7ac158b861abd5a96522cbd2fae86/"><img class="prev-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android下的配置管理之道之gerrit的ssh命令行工具</div></div></a></div><div class="next-post pull-right"><a href="/mage/e405c9d59f8b11b211eff5302fecd36de161171e/"><img class="next-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android下的配置管理之道之Android编译环境搭建</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mage/9f11362bb48e38171ec1992629522ab39976a878/" title="Android下的配置管理之道之gerrit代码服务器之ssh队列详解"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Android下的配置管理之道之gerrit代码服务器之ssh队列详解</div></div></a></div><div><a href="/mage/8ac00d53eb291c161df9a3d30ccaca66be48f13c/" title="Android下的配置管理之道之gerrit修改project路径"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Android下的配置管理之道之gerrit修改project路径</div></div></a></div><div><a href="/mage/4ffe00a009758049d18e75751a7dcc4ee3a21ef9/" title="Android下的配置管理之道之gerrit安装github插件"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Android下的配置管理之道之gerrit安装github插件</div></div></a></div><div><a href="/mage/b1cf003423f7ac158b861abd5a96522cbd2fae86/" title="Android下的配置管理之道之gerrit的ssh命令行工具"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Android下的配置管理之道之gerrit的ssh命令行工具</div></div></a></div><div><a href="/mage/037b07ff16870d51848a2e4b1a21052b80988d7d/" title="Android下的配置管理之道之安装gerrit代码服务器"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Android下的配置管理之道之安装gerrit代码服务器</div></div></a></div><div><a href="/mage/b5c47cc15dea859ed0c5a087d2acd029460a5fea/" title="Android下的配置管理之道之gerrit之psql数据库表介绍"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Android下的配置管理之道之gerrit之psql数据库表介绍</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">mage</div><div class="author-info__description"> 这里是 马哥 的个人博客 </div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">152</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">170</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/mamh2021"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/mamh2021" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/mage/7b14abc60e1d18cc8811745a97f263978e87e4ae/" title="Hexo个人博客搭建教程"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo个人博客搭建教程"/></a><div class="content"><a class="title" href="/mage/7b14abc60e1d18cc8811745a97f263978e87e4ae/" title="Hexo个人博客搭建教程">Hexo个人博客搭建教程</a><time datetime="2022-10-28T13:37:31.000Z" title="发表于 2022-10-28 21:37:31">2022-10-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/9797fe175c0183a6563e7397692d780ecf683a6f/" title="Ansible自动化运维工具之ansible-resources"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ansible自动化运维工具之ansible-resources"/></a><div class="content"><a class="title" href="/mage/9797fe175c0183a6563e7397692d780ecf683a6f/" title="Ansible自动化运维工具之ansible-resources">Ansible自动化运维工具之ansible-resources</a><time datetime="2022-10-16T09:27:39.000Z" title="发表于 2022-10-16 17:27:39">2022-10-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/a0bfcc2b49b5167196ecf1ed7f20f9eb180d9a43/" title="Ansible自动化运维工具之synchronize模块学习"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ansible自动化运维工具之synchronize模块学习"/></a><div class="content"><a class="title" href="/mage/a0bfcc2b49b5167196ecf1ed7f20f9eb180d9a43/" title="Ansible自动化运维工具之synchronize模块学习">Ansible自动化运维工具之synchronize模块学习</a><time datetime="2022-10-13T03:27:35.000Z" title="发表于 2022-10-13 11:27:35">2022-10-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/11746f2e578549a6bef3af02d587fa65f8a9b7ab/" title="Nightingale学习之安装部署"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nightingale学习之安装部署"/></a><div class="content"><a class="title" href="/mage/11746f2e578549a6bef3af02d587fa65f8a9b7ab/" title="Nightingale学习之安装部署">Nightingale学习之安装部署</a><time datetime="2022-10-11T02:05:58.000Z" title="发表于 2022-10-11 10:05:58">2022-10-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/a6082cc302dc1ea3400936da1405365de03cbc7f/" title="React学习总结"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React学习总结"/></a><div class="content"><a class="title" href="/mage/a6082cc302dc1ea3400936da1405365de03cbc7f/" title="React学习总结">React学习总结</a><time datetime="2022-09-13T14:01:10.000Z" title="发表于 2022-09-13 22:01:10">2022-09-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 By mage</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

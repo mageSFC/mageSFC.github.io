@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Ubuntu学习笔记之BackupYourSystem使用tar命令 | 马哥私房菜</title><meta name="author" content="mage"><meta name="copyright" content="mage"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文讲述如何备份你的linux整个系统，这里采用tar命令的方式来备份 备份前准备工作 123456在做整个系统的备份前我们要做一些准备工作。删除所有的emails清空你的浏览器的一些历史取消挂载的硬盘等设备删除家目录里你不想要备份的文件  开始备份 123456789101112131415161718备份需要使用root账号。我们执行sudo su - root 切换到root账号下面。切换目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu学习笔记之BackupYourSystem使用tar命令">
+<meta property="og:url" content="https://magesfc.github.io/mage/d98e027b6b2926e6955f7d6fb21ccb408c1319ac/">
+<meta property="og:site_name" content="马哥私房菜">
+<meta property="og:description" content="本文讲述如何备份你的linux整个系统，这里采用tar命令的方式来备份 备份前准备工作 123456在做整个系统的备份前我们要做一些准备工作。删除所有的emails清空你的浏览器的一些历史取消挂载的硬盘等设备删除家目录里你不想要备份的文件  开始备份 123456789101112131415161718备份需要使用root账号。我们执行sudo su - root 切换到root账号下面。切换目">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg">
+<meta property="article:published_time" content="2022-02-23T09:47:21.000Z">
+<meta property="article:modified_time" content="2022-02-23T09:47:21.000Z">
+<meta property="article:author" content="mage">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="backupyoursystem">
+<meta property="article:tag" content="tar">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg"><link rel="shortcut icon" href="http://www.blackshark.com/favicon.ico"><link rel="canonical" href="https://magesfc.github.io/mage/d98e027b6b2926e6955f7d6fb21ccb408c1319ac/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: mage","link":"链接: ","source":"来源: 马哥私房菜","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ubuntu学习笔记之BackupYourSystem使用tar命令',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-02-23 17:47:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><style type="text/css">.card-announcement .social-button{margin:.6rem 0 0 0;text-align:center}.card-announcement .social-button a{display:block;background-color:var(--btn-bg);color:var(--btn-color);text-align:center;line-height:2.4;margin:4px 0}.card-announcement .social-button a:hover{background-color:var(--btn-hover-color)}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">152</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">170</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马哥私房菜</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Ubuntu学习笔记之BackupYourSystem使用tar命令</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-23T09:47:21.000Z" title="发表于 2022-02-23 17:47:21">2022-02-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-23T09:47:21.000Z" title="更新于 2022-02-23 17:47:21">2022-02-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ubuntu/">ubuntu</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Ubuntu学习笔记之BackupYourSystem使用tar命令"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文讲述如何备份你的linux整个系统，这里采用tar命令的方式来备份</p>
+<p>备份前准备工作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在做整个系统的备份前我们要做一些准备工作。</span><br><span class="line">删除所有的emails</span><br><span class="line">清空你的浏览器的一些历史</span><br><span class="line">取消挂载的硬盘等设备</span><br><span class="line">删除家目录里你不想要备份的文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>开始备份</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">备份需要使用root账号。我们执行sudo su - root 切换到root账号下面。</span><br><span class="line">切换目录到根目录</span><br><span class="line">cd  /</span><br><span class="line">执行tar命令备份</span><br><span class="line">tar -cvpzf backup.tar.gz --exclude=/backup.tar.gz --one-file-system / </span><br><span class="line"></span><br><span class="line">c 创建的意思- create a new backup archive.</span><br><span class="line">v 显示详细信息- verbose mode, tar will print what it&#x27;s doing to the screen.</span><br><span class="line">p 保持文件权限- preserves the permissions of the files put in the archive for restoration later.</span><br><span class="line">z 使用gzip压缩- compress the backup file with &#x27;gzip&#x27; to make it smaller.</span><br><span class="line">f &lt;filename&gt; 备份后生成的文件- specifies where to store the backup, backup.tar.gz is the filename used in this example. </span><br><span class="line">				It will be stored in the current working directory, the one you set when you used the cd command.</span><br><span class="line"></span><br><span class="line">--exclude=/example/path 排除某个路径不去备份- The options following this model instruct tar what directories NOT to backup. </span><br><span class="line">				We don&#x27;t want to backup everything since some directories aren&#x27;t very useful to include. </span><br><span class="line">				The first exclusion rule directs tar not to back itself up, this is important to avoid errors during the operation.</span><br><span class="line"></span><br><span class="line">--one-file-system 的意思是 不包含其他文件系统- Do not include files on a different filesystem</span><br></pre></td></tr></table></figure>
+
+<p>另外一种使用完全手动指定备份目录，不备份的目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd / # THIS CD IS IMPORTANT THE FOLLOWING LONG COMMAND IS RUN FROM /</span><br><span class="line"></span><br><span class="line">tar -cvpzf backup.tar.gz \</span><br><span class="line">--exclude=/backup.tar.gz \</span><br><span class="line">--exclude=/proc \</span><br><span class="line">--exclude=/tmp \</span><br><span class="line">--exclude=/mnt \</span><br><span class="line">--exclude=/dev \</span><br><span class="line">--exclude=/sys \</span><br><span class="line">--exclude=/run \ </span><br><span class="line">--exclude=/media \ </span><br><span class="line">--exclude=/var/log \</span><br><span class="line">--exclude=/var/cache/apt/archives \</span><br><span class="line">--exclude=/usr/src/linux-headers* \ </span><br><span class="line">--exclude=/home/*/.gvfs \</span><br><span class="line">--exclude=/home/*/.cache \ </span><br><span class="line">--exclude=/home/*/.local/share/Trash /</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>备份后切分为小的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">通过管道一次行的切分好文件</span><br><span class="line">tar -cvpz &lt;put options here&gt; / | split -d -b 3900m - /name/of/backup.tar.gz. </span><br><span class="line"></span><br><span class="line">这个是打包后在单独切分文件</span><br><span class="line">split -d -b 3900m /path/to/backup.tar.gz /name/of/backup.tar.gz. </span><br><span class="line"></span><br><span class="line">切分后的文件怎么解压</span><br><span class="line">cat *tar.gz* | tar -xvpzf - -C /  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过网络备份</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">接收端</span><br><span class="line">nc -l 1024 &gt; backup.tar.gz </span><br><span class="line"></span><br><span class="line">发送端</span><br><span class="line">tar -cvpz &lt;all those other options like above&gt; / | nc -q 0 &lt;receiving host&gt; 1024 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">更好的方式通过ssh传输</span><br><span class="line">tar -cvpz &lt;all those other options like above&gt; / | ssh &lt;backuphost&gt; &quot;( cat &gt; ssh_backup.tar.gz )&quot;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>怎么恢复</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">把硬盘挂载到/media 下面</span><br><span class="line">ls /media</span><br><span class="line">sudo tar -xvpzf /path/to/backup.tar.gz -C /media/whatever --numeric-owner</span><br><span class="line"></span><br><span class="line">mkdir /proc /sys /mnt /media </span><br><span class="line"></span><br><span class="line"># 恢复 grub</span><br><span class="line">sudo -s</span><br><span class="line">for f in dev dev/pts proc ; do mount --bind /$f /media/whatever/$f ; done</span><br><span class="line">chroot /media/whatever</span><br><span class="line">dpkg-reconfigure grub-pc</span><br></pre></td></tr></table></figure>
+
+
+<p>我备份打包这个系统是准备作为一个docker image来使用的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">使用docker导入我们刚刚备份的文件</span><br><span class="line">docker import  /path/to/your.tar.gz</span><br><span class="line">最后可以导入成功的，然后还可以运行起来。这样里面的环境都是我们之前物理系统上的，之前安装好的软件，配置号的环境都是存在的。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker import backup.tar.gz bs-ubuntu-14.04</span><br><span class="line"> </span><br><span class="line">docker run -it bs-ubuntu-14.04 /bin/bash</span><br><span class="line"> </span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://magesfc.github.io">mage</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://magesfc.github.io/mage/d98e027b6b2926e6955f7d6fb21ccb408c1319ac/">https://magesfc.github.io/mage/d98e027b6b2926e6955f7d6fb21ccb408c1319ac/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://magesfc.github.io" target="_blank">马哥私房菜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ubuntu/">ubuntu</a><a class="post-meta__tags" href="/tags/backupyoursystem/">backupyoursystem</a><a class="post-meta__tags" href="/tags/tar/">tar</a></div><div class="post_share"><div class="social-share" data-image="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mage/35bdc5bde6c79f7d9baa28f71b48588bac55bf8a/"><img class="prev-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Ubuntu学习笔记之hide-process-from-other-user</div></div></a></div><div class="next-post pull-right"><a href="/mage/366dd9cc15501eafd99f5bb2caf374c4d193767d/"><img class="next-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Ubuntu学习笔记之ubuntu创建samba共享目录</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mage/34e4d0939638b865838f594d333311f5fce82bca/" title="ELK学习之elasticsearch的安装之Ubuntu上安装elasticsearch"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">ELK学习之elasticsearch的安装之Ubuntu上安装elasticsearch</div></div></a></div><div><a href="/mage/6018e727e97bd487ee0f5b15648a257010d6c4e3/" title="ELK学习之elasticsearch的安装之Ubuntu上安装kibana"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">ELK学习之elasticsearch的安装之Ubuntu上安装kibana</div></div></a></div><div><a href="/mage/35bdc5bde6c79f7d9baa28f71b48588bac55bf8a/" title="Ubuntu学习笔记之hide-process-from-other-user"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Ubuntu学习笔记之hide-process-from-other-user</div></div></a></div><div><a href="/mage/366dd9cc15501eafd99f5bb2caf374c4d193767d/" title="Ubuntu学习笔记之ubuntu创建samba共享目录"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Ubuntu学习笔记之ubuntu创建samba共享目录</div></div></a></div><div><a href="/mage/2b79139b936cd1db08d4688a6b499ddedf7d91a5/" title="Ubuntu学习笔记之test-disk-IO-performance"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Ubuntu学习笔记之test-disk-IO-performance</div></div></a></div><div><a href="/mage/0092c74723dc205077d9e5927bb577a5995af9be/" title="Ubuntu学习笔记之ubuntu加入Windows的AD域使用Samba和Winbind的方式"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Ubuntu学习笔记之ubuntu加入Windows的AD域使用Samba和Winbind的方式</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">mage</div><div class="author-info__description"> 这里是 马哥 的个人博客 </div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">152</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">170</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/mamh2021"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/mamh2021" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/mage/7b14abc60e1d18cc8811745a97f263978e87e4ae/" title="Hexo个人博客搭建教程"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo个人博客搭建教程"/></a><div class="content"><a class="title" href="/mage/7b14abc60e1d18cc8811745a97f263978e87e4ae/" title="Hexo个人博客搭建教程">Hexo个人博客搭建教程</a><time datetime="2022-10-28T13:37:31.000Z" title="发表于 2022-10-28 21:37:31">2022-10-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/9797fe175c0183a6563e7397692d780ecf683a6f/" title="Ansible自动化运维工具之ansible-resources"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ansible自动化运维工具之ansible-resources"/></a><div class="content"><a class="title" href="/mage/9797fe175c0183a6563e7397692d780ecf683a6f/" title="Ansible自动化运维工具之ansible-resources">Ansible自动化运维工具之ansible-resources</a><time datetime="2022-10-16T09:27:39.000Z" title="发表于 2022-10-16 17:27:39">2022-10-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/a0bfcc2b49b5167196ecf1ed7f20f9eb180d9a43/" title="Ansible自动化运维工具之synchronize模块学习"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ansible自动化运维工具之synchronize模块学习"/></a><div class="content"><a class="title" href="/mage/a0bfcc2b49b5167196ecf1ed7f20f9eb180d9a43/" title="Ansible自动化运维工具之synchronize模块学习">Ansible自动化运维工具之synchronize模块学习</a><time datetime="2022-10-13T03:27:35.000Z" title="发表于 2022-10-13 11:27:35">2022-10-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/11746f2e578549a6bef3af02d587fa65f8a9b7ab/" title="Nightingale学习之安装部署"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Nightingale学习之安装部署"/></a><div class="content"><a class="title" href="/mage/11746f2e578549a6bef3af02d587fa65f8a9b7ab/" title="Nightingale学习之安装部署">Nightingale学习之安装部署</a><time datetime="2022-10-11T02:05:58.000Z" title="发表于 2022-10-11 10:05:58">2022-10-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/a6082cc302dc1ea3400936da1405365de03cbc7f/" title="React学习总结"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="React学习总结"/></a><div class="content"><a class="title" href="/mage/a6082cc302dc1ea3400936da1405365de03cbc7f/" title="React学习总结">React学习总结</a><time datetime="2022-09-13T14:01:10.000Z" title="发表于 2022-09-13 22:01:10">2022-09-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 By mage</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
