@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Linux学习之bash学习之bash_strict_mode | 马哥私房菜</title><meta name="author" content="mage"><meta name="copyright" content="mage"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Table of Contents set -e, -u, -x, -o pipefail set -e set -x set -u set -o pipefail Setting IFS Original Reference  set -e, -u, -x, -o pipefail The set lines These lines deliberately cause your script">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习之bash学习之bash_strict_mode">
+<meta property="og:url" content="https://magesfc.github.io/mage/8facee0ca4bc4450ba21eea69a97fe1891c415dc/">
+<meta property="og:site_name" content="马哥私房菜">
+<meta property="og:description" content="Table of Contents set -e, -u, -x, -o pipefail set -e set -x set -u set -o pipefail Setting IFS Original Reference  set -e, -u, -x, -o pipefail The set lines These lines deliberately cause your script">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg">
+<meta property="article:published_time" content="2022-12-13T11:18:28.000Z">
+<meta property="article:modified_time" content="2022-12-13T11:18:28.000Z">
+<meta property="article:author" content="mage">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="bash">
+<meta property="article:tag" content="strict">
+<meta property="article:tag" content="mode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg"><link rel="shortcut icon" href="http://www.blackshark.com/favicon.ico"><link rel="canonical" href="https://magesfc.github.io/mage/8facee0ca4bc4450ba21eea69a97fe1891c415dc/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: mage","link":"链接: ","source":"来源: 马哥私房菜","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux学习之bash学习之bash_strict_mode',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-12-13 19:18:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><style type="text/css">.card-announcement .social-button{margin:.6rem 0 0 0;text-align:center}.card-announcement .social-button a{display:block;background-color:var(--btn-bg);color:var(--btn-color);text-align:center;line-height:2.4;margin:4px 0}.card-announcement .social-button a:hover{background-color:var(--btn-hover-color)}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">169</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">187</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马哥私房菜</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux学习之bash学习之bash_strict_mode</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-13T11:18:28.000Z" title="发表于 2022-12-13 19:18:28">2022-12-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-12-13T11:18:28.000Z" title="更新于 2022-12-13 19:18:28">2022-12-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux学习之bash学习之bash_strict_mode"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Table-of-Contents"><a href="#Table-of-Contents" class="headerlink" title="Table of Contents"></a>Table of Contents</h1><ul>
+<li><a href="#set--e--u--x--o-pipefail">set -e, -u, -x, -o pipefail</a></li>
+<li><a href="#set--e">set -e</a></li>
+<li><a href="#set--x">set -x</a></li>
+<li><a href="#set--u">set -u</a></li>
+<li><a href="#set--o-pipefail">set -o pipefail</a></li>
+<li><a href="#setting-ifs">Setting IFS</a></li>
+<li><a href="#original-reference">Original Reference</a></li>
+</ul>
+<h4 id="set-e-u-x-o-pipefail"><a href="#set-e-u-x-o-pipefail" class="headerlink" title="set -e, -u, -x, -o pipefail"></a>set -e, -u, -x, -o pipefail</h4><ul>
+<li>The <code>set</code> lines<ul>
+<li><p>These lines deliberately cause your script to fail. Wait, what? Believe me, this is a good thing. </p>
+</li>
+<li><p>With these settings, certain common errors will cause the script to immediately fail, explicitly and loudly. Otherwise, you can get hidden bugs that are discovered only when they blow up in production.</p>
+<p><code>set -euxo pipefail</code> is short for:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set -e</span><br><span class="line">set -u</span><br><span class="line">set -o pipefail</span><br><span class="line">set -x</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="set-e"><a href="#set-e" class="headerlink" title="set -e"></a>set -e</h4><ul>
+<li>The <code>set -e</code> option instructs bash to immediately exit if any command [1] has a non-zero exit status. You wouldn’t want to set this for your command-line shell, but in a script it’s massively helpful. In all widely used general-purpose programming languages, an unhandled runtime error</li>
+</ul>
+<ul>
+<li><p>whether that’s a thrown exception in Java, or a segmentation fault in C, or a syntax error in Python - immediately halts execution of the program; subsequent lines are not executed.</p>
+<ul>
+<li>By default, bash does not do this. This default behavior is exactly what you want if you are using bash on the command line </li>
+<li>you don’t want a typo to log you out! But in a script, you really want the opposite. </li>
+<li>If one line in a script fails, but the last line succeeds, the whole script has a successful exit code. That makes it very easy to miss the error.</li>
+<li>Again, what you want when using bash as your command-line shell and using it in scripts are at odds here. Being intolerant of errors is a lot better in scripts, and that’s what set -e gives you.</li>
+</ul>
+</li>
+</ul>
+<h4 id="set-x"><a href="#set-x" class="headerlink" title="set -x"></a>set -x</h4><ul>
+<li>Enables a mode of the shell where all executed commands are printed to the terminal. In your case it’s clearly used for debugging, which is a typical use case for set -x : printing every command as it is executed may help you to visualize the control flow of the script if it is not functioning as expected.</li>
+</ul>
+<h4 id="set-u"><a href="#set-u" class="headerlink" title="set -u"></a>set -u</h4><ul>
+<li><p>Affects variables. When set, a reference to any variable you haven’t previously defined - with the exceptions of $* and $@ - is an error, and causes the program to immediately exit. Languages like Python, C, Java and more all behave the same way, for all sorts of good reasons. One is so typos don’t create new variables without you realizing it. For example:</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">firstName=&quot;Aaron&quot;</span><br><span class="line">fullName=&quot;$firstname Maxwell&quot;</span><br><span class="line">echo &quot;$fullName&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>Take a moment and look. Do you see the error? The right-hand side of the third line says “firstname”, all lowercase, instead of the camel-cased “firstName”. Without the -u option, this will be a silent error. But with the -u option, the script exits on that line with an exit code of 1, printing the message “firstname: unbound variable” to stderr. </p>
+</li>
+<li><p>This is what you want: have it fail explicitly and immediately, rather than create subtle bugs that may be discovered too late.</p>
+</li>
+</ul>
+<h4 id="set-o-pipefail"><a href="#set-o-pipefail" class="headerlink" title="set -o pipefail"></a>set -o pipefail</h4><ul>
+<li><p>This setting prevents errors in a pipeline from being masked. If any command in a pipeline fails, that return code will be used as the return code of the whole pipeline. By default, the pipeline’s return code is that of the last command even if it succeeds. Imagine finding a sorted list of matching lines in a file:</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep some-string /non/existent/file | sort</span><br><span class="line">grep: /non/existent/file: No such file or directory</span><br><span class="line">% echo $?</span><br><span class="line">0</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>Here, grep has an exit code of 2, writes an error message to stderr, and an empty string to stdout. </p>
+</li>
+<li><p>This empty string is then passed through sort, which happily accepts it as valid input, and returns a status code of 0. </p>
+</li>
+<li><p>This is fine for a command line, but bad for a shell script: you almost certainly want the script to exit right then with a nonzero exit code… like this:</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ set -o pipefail</span><br><span class="line">$ grep some-string /non/existent/file | sort</span><br><span class="line">grep: /non/existent/file: No such file or directory</span><br><span class="line">$ echo $?</span><br><span class="line">2</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="Setting-IFS"><a href="#Setting-IFS" class="headerlink" title="Setting IFS"></a>Setting IFS</h4><ul>
+<li><p>The IFS variable - which stands for Internal Field Separator - controls what Bash calls word splitting. When set to a string, each character in the string is considered by Bash to separate words. This governs how bash will iterate through a sequence. For example, this script:</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">IFS=$&#x27; &#x27;</span><br><span class="line">items=&quot;a b c&quot;</span><br><span class="line">for x in $items; do</span><br><span class="line">    echo &quot;$x&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">IFS=$&#x27;\n&#x27;</span><br><span class="line">for y in $items; do</span><br><span class="line">    echo &quot;$y&quot;</span><br><span class="line">done</span><br><span class="line">... will print out this:</span><br><span class="line"></span><br><span class="line">a</span><br><span class="line">b</span><br><span class="line">c</span><br><span class="line">a b c</span><br></pre></td></tr></table></figure></li>
+<li><p>In the first for loop, IFS is set to $’ ‘. (The $’…’ syntax creates a string, with backslash-escaped characters replaced with special characters - like “\t” for tab and “\n” for newline.) Within the for loops, x and y are set to whatever bash considers a “word” in the original sequence. </p>
+</li>
+<li><p>For the first loop, IFS is a space, meaning that words are separated by a space character. </p>
+</li>
+<li><p>For the second loop, “words” are separated by a newline, which means bash considers the whole value of “items” as a single word. If IFS is more than one character, splitting will be done on any of those characters.</p>
+</li>
+<li><p>Got all that? The next question is, why are we setting IFS to a string consisting of a tab character and a newline? Because it gives us better behavior when iterating over a loop. By “better”, I mean “much less likely to cause surprising and confusing bugs”. This is apparent in working with bash arrays:</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">names=(</span><br><span class="line">&quot;Aaron Maxwell&quot;</span><br><span class="line">&quot;Wayne Gretzky&quot;</span><br><span class="line">&quot;David Beckham&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">echo &quot;With default IFS value...&quot;</span><br><span class="line">for name in $&#123;names[@]&#125;; do</span><br><span class="line">echo &quot;$name&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;&quot;</span><br><span class="line">echo &quot;With strict-mode IFS value...&quot;</span><br><span class="line">IFS=$&#x27;\n\t&#x27;</span><br><span class="line">for name in $&#123;names[@]&#125;; do</span><br><span class="line">echo &quot;$name&quot;</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## Output</span><br><span class="line">With default IFS value...</span><br><span class="line">Aaron</span><br><span class="line">Maxwell</span><br><span class="line">Wayne</span><br><span class="line">Gretzky</span><br><span class="line">David</span><br><span class="line">Beckham</span><br><span class="line"></span><br><span class="line">With strict-mode IFS value...</span><br><span class="line">Aaron Maxwell</span><br><span class="line">Wayne Gretzky</span><br><span class="line">David Beckham</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>Or consider a script that takes filenames as command line arguments:</p>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for arg in $@; do</span><br><span class="line">    echo &quot;doing something with file: $arg&quot;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ul>
+<li><p>If you invoke this as myscript.sh notes todo-list ‘My Resume.doc’, then with the default IFS value, the third argument will be mis-parsed as two separate files - named “My” and “Resume.doc”. When actually it’s a file that has a space in it, named “My Resume.doc”.</p>
+</li>
+<li><p>Which behavior is more generally useful? The second, of course - where we have the ability to not split on spaces. If we have an array of strings that in general contain spaces, we normally want to iterate through them item by item, and not split an individual item into several.</p>
+</li>
+<li><p>Setting IFS to $’\n\t’ means that word splitting will happen only on newlines and tab characters. This very often produces useful splitting behavior. </p>
+</li>
+<li><p>By default, bash sets this to $’ \n\t’ - space, newline, tab - which is too eager.</p>
+</li>
+</ul>
+<h2 id="Original-Reference"><a href="#Original-Reference" class="headerlink" title="Original Reference"></a>Original Reference</h2><ul>
+<li><strong>Maxwell, A. Unofficial-bash-strict-mode. Retrieved 2018, from <a target="_blank" rel="noopener" href="http://redsymbol.net/articles/unofficial-bash-strict-mode/">http://redsymbol.net/articles/unofficial-bash-strict-mode/</a></strong></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://magesfc.github.io">mage</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://magesfc.github.io/mage/8facee0ca4bc4450ba21eea69a97fe1891c415dc/">https://magesfc.github.io/mage/8facee0ca4bc4450ba21eea69a97fe1891c415dc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://magesfc.github.io" target="_blank">马哥私房菜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a><a class="post-meta__tags" href="/tags/bash/">bash</a><a class="post-meta__tags" href="/tags/strict/">strict</a><a class="post-meta__tags" href="/tags/mode/">mode</a></div><div class="post_share"><div class="social-share" data-image="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mage/b86949e1fd66e39ee6b396cf422c6660cdcb5ebe/"><img class="prev-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android下的配置管理之道之gerrit配置js插件</div></div></a></div><div class="next-post pull-right"><a href="/mage/c480dbde40d58e354795a1a408fdb8bad06fe7cc/"><img class="next-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Ansible自动化运维工具之role介绍</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mage/29b1dee9b6336ea01be4716d95ecfbad663018d6/" title="Linux学习之bash学习之几个特殊变量"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之bash学习之几个特殊变量</div></div></a></div><div><a href="/mage/0158e8186f0827d0b00df276735e46e876749b88/" title="Linux学习之bash学习之在bash中&#x3D;和&#x3D;~的区别"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之bash学习之在bash中&#x3D;和&#x3D;~的区别</div></div></a></div><div><a href="/mage/a718e01bee375dd72d94fd15211e2e4f41c0a52c/" title="Linux学习之bash学习之cookbook技巧"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之bash学习之cookbook技巧</div></div></a></div><div><a href="/mage/bead5c222ebd755a0ea0b8165ff0663545d6c700/" title="Linux学习之10个有用的链式操作符及其实例"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之10个有用的链式操作符及其实例</div></div></a></div><div><a href="/mage/16b8c6357057536aa45c505f7c99cb9d22c87038/" title="Linux学习之awk学习之Linux-awk-command系列"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之awk学习之Linux-awk-command系列</div></div></a></div><div><a href="/mage/38ae2954216cbb01f17e65a071e8e4ed0db94823/" title="Linux学习之shell实现并发执行命令"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之shell实现并发执行命令</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">mage</div><div class="author-info__description"> 这里是 马哥 的个人博客 </div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">169</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">187</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">34</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/mamh2021"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/mamh2021" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Table-of-Contents"><span class="toc-number">1.</span> <span class="toc-text">Table of Contents</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#set-e-u-x-o-pipefail"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">set -e, -u, -x, -o pipefail</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#set-e"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">set -e</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#set-x"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">set -x</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#set-u"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">set -u</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#set-o-pipefail"><span class="toc-number">1.0.0.5.</span> <span class="toc-text">set -o pipefail</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Setting-IFS"><span class="toc-number">1.0.0.6.</span> <span class="toc-text">Setting IFS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Original-Reference"><span class="toc-number">1.1.</span> <span class="toc-text">Original Reference</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/mage/298144bf31bdad623369d39b38ebddb64dde1abd/" title="jenkins学习之Jenkins开发调试于jenkins插件开发调试"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="jenkins学习之Jenkins开发调试于jenkins插件开发调试"/></a><div class="content"><a class="title" href="/mage/298144bf31bdad623369d39b38ebddb64dde1abd/" title="jenkins学习之Jenkins开发调试于jenkins插件开发调试">jenkins学习之Jenkins开发调试于jenkins插件开发调试</a><time datetime="2023-03-16T05:47:11.000Z" title="更新于 2023-03-16 13:47:11">2023-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/99fd30947b3d8a14f909e4875dc196943b037448/" title="jenkins插件学习之extended-choice-parameter-plugin"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="jenkins插件学习之extended-choice-parameter-plugin"/></a><div class="content"><a class="title" href="/mage/99fd30947b3d8a14f909e4875dc196943b037448/" title="jenkins插件学习之extended-choice-parameter-plugin">jenkins插件学习之extended-choice-parameter-plugin</a><time datetime="2023-03-11T13:56:49.000Z" title="更新于 2023-03-11 21:56:49">2023-03-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/b86949e1fd66e39ee6b396cf422c6660cdcb5ebe/" title="Android下的配置管理之道之gerrit配置js插件"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android下的配置管理之道之gerrit配置js插件"/></a><div class="content"><a class="title" href="/mage/b86949e1fd66e39ee6b396cf422c6660cdcb5ebe/" title="Android下的配置管理之道之gerrit配置js插件">Android下的配置管理之道之gerrit配置js插件</a><time datetime="2023-01-11T09:11:46.000Z" title="更新于 2023-01-11 17:11:46">2023-01-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/8facee0ca4bc4450ba21eea69a97fe1891c415dc/" title="Linux学习之bash学习之bash_strict_mode"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux学习之bash学习之bash_strict_mode"/></a><div class="content"><a class="title" href="/mage/8facee0ca4bc4450ba21eea69a97fe1891c415dc/" title="Linux学习之bash学习之bash_strict_mode">Linux学习之bash学习之bash_strict_mode</a><time datetime="2022-12-13T11:18:28.000Z" title="更新于 2022-12-13 19:18:28">2022-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/38b16f805c0e0bfdce028d95fdd10a0b160e9167/" title="Linux学习之文件系统btrfs文件系统"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux学习之文件系统btrfs文件系统"/></a><div class="content"><a class="title" href="/mage/38b16f805c0e0bfdce028d95fdd10a0b160e9167/" title="Linux学习之文件系统btrfs文件系统">Linux学习之文件系统btrfs文件系统</a><time datetime="2022-12-05T14:37:10.000Z" title="更新于 2022-12-05 22:37:10">2022-12-05</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By mage</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
