@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Vue学习之map文件讲解 | 马哥私房菜</title><meta name="author" content="mage"><meta name="copyright" content="mage"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.dist中“大”文件—-map 执行项目构建后 打开dist&#x2F;js文件夹，文件是这样的。很多和js文件同名的map后缀文件，而且size还很大。 2.map是个什么玩意 source map文件是js文件压缩后，文件的变量名替换对应、变量所在位置等元信息数据文件，一般这种文件和min.js主文件放在同一个目录下。 比如压缩后原变量是map，压缩后通过变量替换规则可能会被替换成a，这时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习之map文件讲解">
+<meta property="og:url" content="https://magesfc.github.io/mage/3ac3051dc95dc121fd8548163900fe43bd7bfa27/">
+<meta property="og:site_name" content="马哥私房菜">
+<meta property="og:description" content="1.dist中“大”文件—-map 执行项目构建后 打开dist&#x2F;js文件夹，文件是这样的。很多和js文件同名的map后缀文件，而且size还很大。 2.map是个什么玩意 source map文件是js文件压缩后，文件的变量名替换对应、变量所在位置等元信息数据文件，一般这种文件和min.js主文件放在同一个目录下。 比如压缩后原变量是map，压缩后通过变量替换规则可能会被替换成a，这时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg">
+<meta property="article:published_time" content="2023-06-29T05:48:51.000Z">
+<meta property="article:modified_time" content="2023-06-29T05:48:51.000Z">
+<meta property="article:author" content="mage">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="map">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg"><link rel="shortcut icon" href="http://www.blackshark.com/favicon.ico"><link rel="canonical" href="https://magesfc.github.io/mage/3ac3051dc95dc121fd8548163900fe43bd7bfa27/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: mage","link":"链接: ","source":"来源: 马哥私房菜","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Vue学习之map文件讲解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-06-29 13:48:51'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><style type="text/css">.card-announcement .social-button{margin:.6rem 0 0 0;text-align:center}.card-announcement .social-button a{display:block;background-color:var(--btn-bg);color:var(--btn-color);text-align:center;line-height:2.4;margin:4px 0}.card-announcement .social-button a:hover{background-color:var(--btn-hover-color)}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">184</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">200</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马哥私房菜</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Vue学习之map文件讲解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-29T05:48:51.000Z" title="发表于 2023-06-29 13:48:51">2023-06-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-29T05:48:51.000Z" title="更新于 2023-06-29 13:48:51">2023-06-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/vue/">vue</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Vue学习之map文件讲解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>1.dist中“大”文件—-map</p>
+<p>执行项目构建后 打开dist&#x2F;js文件夹，文件是这样的。很多和js文件同名的map后缀文件，而且size还很大。</p>
+<p>2.map是个什么玩意</p>
+<p>source map文件是js文件压缩后，文件的变量名替换对应、变量所在位置等元信息数据文件，一般这种文件和min.js主文件放在同一个目录下。 比如压缩后原变量是map，压缩后通过变量替换规则可能会被替换成a，这时source map文件会记录下这个mapping的信息，这样的好处就是说，在调试的时候，如果有一些JS报错，那么浏览器会通过解析这个map文件来重新merge压缩后的js,使开发者可以用未压缩前的代码来调试，这样会给我们带来很大的方便！</p>
+<p>而这种还原性调试功能，目前只有chorme才具有。</p>
+<p>一句话，就是压缩的js与未压缩源文件js之间的映射关系文件。（就是一个桥梁）<br>这玩意就是辅助我调试用的，正式站其实作用不大，而且处于安全考虑，可以直接干掉。</p>
+<p>3.如何优化</p>
+<p>因为 是基于 vue 构建的项目，所以在vue.config.js文件中，添加productionSourceMap: false 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ tree dist/js  </span><br><span class="line">dist/js</span><br><span class="line">├── 156.3e27fe8b.js</span><br><span class="line">├── 212.281bdf69.js</span><br><span class="line">├── 227.a301df0c.js</span><br><span class="line">├── 283.e3b359fc.js</span><br><span class="line">├── 512.491dfd27.js</span><br><span class="line">├── 524.0435b7d8.js</span><br><span class="line">├── 534.b0e5796e.js</span><br><span class="line">├── 62.56df25c9.js</span><br><span class="line">├── 628.e365b99a.js</span><br><span class="line">├── 693.ef62c775.js</span><br><span class="line">├── 779.a58a76eb.js</span><br><span class="line">├── 799.348044de.js</span><br><span class="line">├── 805.abcfd6f8.js</span><br><span class="line">├── app.019ddae1.js</span><br><span class="line">└── chunk-vendors.82a42815.js</span><br><span class="line"></span><br><span class="line">0 directories, 15 files</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">$ tree dist/js                                    </span><br><span class="line">dist/js</span><br><span class="line">├── 156.60d3698c.js</span><br><span class="line">├── 156.60d3698c.js.map</span><br><span class="line">├── 212.9d385e5c.js</span><br><span class="line">├── 212.9d385e5c.js.map</span><br><span class="line">├── 227.33f46797.js</span><br><span class="line">├── 227.33f46797.js.map</span><br><span class="line">├── 283.2bb3d6f0.js</span><br><span class="line">├── 283.2bb3d6f0.js.map</span><br><span class="line">├── 512.84fc8667.js</span><br><span class="line">├── 512.84fc8667.js.map</span><br><span class="line">├── 524.c0d6339a.js</span><br><span class="line">├── 524.c0d6339a.js.map</span><br><span class="line">├── 534.d3e4e3d1.js</span><br><span class="line">├── 534.d3e4e3d1.js.map</span><br><span class="line">├── 62.0ccf2bfb.js</span><br><span class="line">├── 62.0ccf2bfb.js.map</span><br><span class="line">├── 628.a386442a.js</span><br><span class="line">├── 628.a386442a.js.map</span><br><span class="line">├── 693.1e823f51.js</span><br><span class="line">├── 693.1e823f51.js.map</span><br><span class="line">├── 779.fbe74adb.js</span><br><span class="line">├── 779.fbe74adb.js.map</span><br><span class="line">├── 799.3f527b29.js</span><br><span class="line">├── 799.3f527b29.js.map</span><br><span class="line">├── 805.8805700a.js</span><br><span class="line">├── 805.8805700a.js.map</span><br><span class="line">├── app.0a795711.js</span><br><span class="line">├── app.0a795711.js.map</span><br><span class="line">├── chunk-vendors.731b4bbf.js</span><br><span class="line">└── chunk-vendors.731b4bbf.js.map</span><br><span class="line"></span><br><span class="line">0 directories, 30 files</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>进一步优化，按照开发环境与生产环境区分，开发环境关闭，方便开发调试。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://magesfc.github.io">mage</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://magesfc.github.io/mage/3ac3051dc95dc121fd8548163900fe43bd7bfa27/">https://magesfc.github.io/mage/3ac3051dc95dc121fd8548163900fe43bd7bfa27/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://magesfc.github.io" target="_blank">马哥私房菜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/vue/">vue</a><a class="post-meta__tags" href="/tags/map/">map</a></div><div class="post_share"><div class="social-share" data-image="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mage/2de64dd780f183c8fe0810e908f6a75095526abb/"><img class="prev-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Vue学习之项目上线部署</div></div></a></div><div class="next-post pull-right"><a href="/mage/3f63387a5060f8f9861993648a55bac9269379ce/"><img class="next-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue学习之基础用法和基础原理整理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mage/e593793892e8e2c77cbc7bca0c9eb46ade08efa1/" title="Vue学习之vuex的四个map方法讲解"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">Vue学习之vuex的四个map方法讲解</div></div></a></div><div><a href="/mage/0ccda5094ba02cf491f9788920b7c9ae98740abb/" title="Vue学习之mixin混入详解"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-30</div><div class="title">Vue学习之mixin混入详解</div></div></a></div><div><a href="/mage/fcf51869c12a4429c17398531baeb382770504d5/" title="Vue学习之slot插槽详解"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-30</div><div class="title">Vue学习之slot插槽详解</div></div></a></div><div><a href="/mage/2581c909acd3c82518c8420289c2c2582446e574/" title="Vue学习之组件生命周期"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">Vue学习之组件生命周期</div></div></a></div><div><a href="/mage/2de64dd780f183c8fe0810e908f6a75095526abb/" title="Vue学习之项目上线部署"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-29</div><div class="title">Vue学习之项目上线部署</div></div></a></div><div><a href="/mage/ddf9db6c9dd7d46ab15c6d5b55d1729aeb935eac/" title="Vue学习之vuex详解"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">Vue学习之vuex详解</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">mage</div><div class="author-info__description"> 这里是 马哥 的个人博客 </div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">184</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">200</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">38</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/mamh2021"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/mamh2021" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/mage/fcf51869c12a4429c17398531baeb382770504d5/" title="Vue学习之slot插槽详解"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue学习之slot插槽详解"/></a><div class="content"><a class="title" href="/mage/fcf51869c12a4429c17398531baeb382770504d5/" title="Vue学习之slot插槽详解">Vue学习之slot插槽详解</a><time datetime="2023-06-30T07:34:30.000Z" title="更新于 2023-06-30 15:34:30">2023-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/0ccda5094ba02cf491f9788920b7c9ae98740abb/" title="Vue学习之mixin混入详解"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue学习之mixin混入详解"/></a><div class="content"><a class="title" href="/mage/0ccda5094ba02cf491f9788920b7c9ae98740abb/" title="Vue学习之mixin混入详解">Vue学习之mixin混入详解</a><time datetime="2023-06-30T07:34:16.000Z" title="更新于 2023-06-30 15:34:16">2023-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/86add1806f9c7175f79044b87f82b5e2ed211aae/" title="Vue学习之组件之间的通信"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue学习之组件之间的通信"/></a><div class="content"><a class="title" href="/mage/86add1806f9c7175f79044b87f82b5e2ed211aae/" title="Vue学习之组件之间的通信">Vue学习之组件之间的通信</a><time datetime="2023-06-30T07:33:09.000Z" title="更新于 2023-06-30 15:33:09">2023-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/2de64dd780f183c8fe0810e908f6a75095526abb/" title="Vue学习之项目上线部署"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue学习之项目上线部署"/></a><div class="content"><a class="title" href="/mage/2de64dd780f183c8fe0810e908f6a75095526abb/" title="Vue学习之项目上线部署">Vue学习之项目上线部署</a><time datetime="2023-06-29T06:33:09.000Z" title="更新于 2023-06-29 14:33:09">2023-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/3ac3051dc95dc121fd8548163900fe43bd7bfa27/" title="Vue学习之map文件讲解"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vue学习之map文件讲解"/></a><div class="content"><a class="title" href="/mage/3ac3051dc95dc121fd8548163900fe43bd7bfa27/" title="Vue学习之map文件讲解">Vue学习之map文件讲解</a><time datetime="2023-06-29T05:48:51.000Z" title="更新于 2023-06-29 13:48:51">2023-06-29</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By mage</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
