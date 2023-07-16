@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>DevOps系列学习Zadig学习之Zadig介绍 | 马哥私房菜</title><meta name="author" content="mage"><meta name="copyright" content="mage"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="zadighttps:&#x2F;&#x2F;koderover.com&#x2F;zadigx https:&#x2F;&#x2F;docs.koderover.com&#x2F;zadig&#x2F;Zadig%20v1.17.0&#x2F;quick-start&#x2F;introduction&#x2F; zadig 还有个 企业版的 zadigx。 Zadig 介绍Zadig 是 KodeRover 公司基于 Kubernetes 自主设计、研发的开源分布式持续交付 (Continu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DevOps系列学习Zadig学习之Zadig介绍">
+<meta property="og:url" content="https://magesfc.github.io/mage/9df97ef80a4259b5fb1dfb21e65a56bf93537f27/">
+<meta property="og:site_name" content="马哥私房菜">
+<meta property="og:description" content="zadighttps:&#x2F;&#x2F;koderover.com&#x2F;zadigx https:&#x2F;&#x2F;docs.koderover.com&#x2F;zadig&#x2F;Zadig%20v1.17.0&#x2F;quick-start&#x2F;introduction&#x2F; zadig 还有个 企业版的 zadigx。 Zadig 介绍Zadig 是 KodeRover 公司基于 Kubernetes 自主设计、研发的开源分布式持续交付 (Continu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg">
+<meta property="article:published_time" content="2023-07-16T03:58:31.000Z">
+<meta property="article:modified_time" content="2023-07-16T03:58:31.000Z">
+<meta property="article:author" content="mage">
+<meta property="article:tag" content="devops">
+<meta property="article:tag" content="zadig">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg"><link rel="shortcut icon" href="http://www.blackshark.com/favicon.ico"><link rel="canonical" href="https://magesfc.github.io/mage/9df97ef80a4259b5fb1dfb21e65a56bf93537f27/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: mage","link":"链接: ","source":"来源: 马哥私房菜","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DevOps系列学习Zadig学习之Zadig介绍',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-16 11:58:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><style type="text/css">.card-announcement .social-button{margin:.6rem 0 0 0;text-align:center}.card-announcement .social-button a{display:block;background-color:var(--btn-bg);color:var(--btn-color);text-align:center;line-height:2.4;margin:4px 0}.card-announcement .social-button a:hover{background-color:var(--btn-hover-color)}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">208</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">41</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马哥私房菜</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">DevOps系列学习Zadig学习之Zadig介绍</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-16T03:58:31.000Z" title="发表于 2023-07-16 11:58:31">2023-07-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-07-16T03:58:31.000Z" title="更新于 2023-07-16 11:58:31">2023-07-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/devops/">devops</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="DevOps系列学习Zadig学习之Zadig介绍"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="zadig"><a href="#zadig" class="headerlink" title="zadig"></a>zadig</h1><p><a target="_blank" rel="noopener" href="https://koderover.com/zadigx">https://koderover.com/zadigx</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.koderover.com/zadig/Zadig%20v1.17.0/quick-start/introduction/">https://docs.koderover.com/zadig/Zadig%20v1.17.0/quick-start/introduction/</a></p>
+<p>zadig 还有个 企业版的 zadigx。</p>
+<h2 id="Zadig-介绍"><a href="#Zadig-介绍" class="headerlink" title="Zadig 介绍"></a>Zadig 介绍</h2><p>Zadig 是 KodeRover 公司基于 Kubernetes 自主设计、研发的开源分布式持续交付 (Continuous Delivery) 产品，具备灵活易用的高并发工作流、面向开发者的云原生环境、高效协同的测试管理、强大免运维的模板库、客观精确的效能洞察以及云原生 IDE 插件等重要特性，为工程师提供统一的协作平面。Zadig 内置了 K8s YAML、Helm Chart、主机等复杂场景最佳实践，适用大规模微服务、高频高质量交付等场景。我们的目标是通过云原生技术的运用和工程产品赋能，打造极致、高效、愉悦的开发者工作体验，让工程师成为企业创新的核心引擎。</p>
+<p>我们的愿景：<code>工程师 + Zadig = 商业上的成功</code></p>
+<p>业务架构介绍：</p>
+<p><img src= "/img/loading.gif" data-lazy-src="https://docs.koderover.com/zadig/assets/img/Zadig-Business-Architecture-zh.dac2bd0d.jpg"></p>
+<p>采用微服务架构模式，前后端分离。</p>
+<p>代码主要在这里</p>
+<p>后端代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/koderover/zadig</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>前段代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/koderover/zadig-portal</span><br></pre></td></tr></table></figure>
+
+<h2 id="zadig-包含哪些微服务"><a href="#zadig-包含哪些微服务" class="headerlink" title="zadig 包含哪些微服务"></a>zadig 包含哪些微服务</h2><p>后端 包含的组件如下：（makefile里面查看到，官方没有找到具体的说明）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MICROSERVICE_TARGETS = \</span><br><span class="line">    aslan \</span><br><span class="line">    cron \</span><br><span class="line">    hub-agent \</span><br><span class="line">    hub-server \</span><br><span class="line">    init \</span><br><span class="line">    jenkins-plugin \</span><br><span class="line">    packager-plugin \</span><br><span class="line">    predator-plugin \</span><br><span class="line">    resource-server \</span><br><span class="line">    ua \</span><br><span class="line">    warpdrive</span><br></pre></td></tr></table></figure>
+
+<p>从安装脚本中看到，这个zadig依赖的中间件还是比较多的 ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">k8s </span><br><span class="line">helm</span><br><span class="line"></span><br><span class="line">mongodb</span><br><span class="line"></span><br><span class="line">mysql</span><br><span class="line"></span><br><span class="line">minio</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用 Helm Chart 的方式部署到 K8s 集群中</p>
+<p>部署完成后查看 zadig 相关服务状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods -n zadig</span><br><span class="line">NAME                              READY   STATUS      RESTARTS       AGE</span><br><span class="line">aslan-69d6759654-rtsrn            2/2     Running     0              155m</span><br><span class="line">config-547fb89564-vkj84           1/1     Running     1 (153m ago)   155m</span><br><span class="line">cron-f8544788c-5b8fl              2/2     Running     1 (143m ago)   155m</span><br><span class="line">dind-0                            1/1     Running     0              155m</span><br><span class="line">discovery-74945fc6d4-sn8ws        1/1     Running     0              155m</span><br><span class="line">gateway-6bdf56976-gg4nx           1/1     Running     3 (154m ago)   155m</span><br><span class="line">gateway-proxy-f7d46ccb9-bln5j     1/1     Running     0              155m</span><br><span class="line">gloo-66d69d848f-khvfk             1/1     Running     0              155m</span><br><span class="line">hub-server-7fb68b65cb-4c7lp       1/1     Running     0              155m</span><br><span class="line">nsqlookup-0                       1/1     Running     0              155m</span><br><span class="line">opa-b5df66445-stjjp               1/1     Running     0              155m</span><br><span class="line">picket-84d4758c5f-kp88l           1/1     Running     0              155m</span><br><span class="line">podexec-57db555984-tgrk8          1/1     Running     0              155m</span><br><span class="line">policy-67f7d4f744-n9g5l           1/1     Running     0              155m</span><br><span class="line">resource-server-bcd7cd7f8-krpg6   1/1     Running     0              155m</span><br><span class="line">user-5c95bb8fb7-z8wg5             1/1     Running     1 (153m ago)   155m</span><br><span class="line">warpdrive-7ffff47d47-n2vwb        2/2     Running     0              155m</span><br><span class="line">warpdrive-7ffff47d47-rwpq4        2/2     Running     0              155m</span><br><span class="line">zadig-dex-c575978d9-n68q9         1/1     Running     1 (150m ago)   155m</span><br><span class="line">zadig-init--1-f98xb               0/1     Completed   0              155m</span><br><span class="line">zadig-minio-fb7fdd6b6-cfjss       1/1     Running     0              155m</span><br><span class="line">zadig-mongodb-5c59975745-4s24h    1/1     Running     0              155m</span><br><span class="line">zadig-mysql-0                     1/1     Running     0              155m</span><br><span class="line">zadig-portal-5cdd6d9fdd-6g8ds     1/1     Running     0              155m</span><br></pre></td></tr></table></figure>
+<h2 id="zadig-架构"><a href="#zadig-架构" class="headerlink" title="zadig 架构"></a>zadig 架构</h2><p><img src= "/img/loading.gif" data-lazy-src="https://picdn.youdianzhishi.com/images/1657589415147.jpg"></p>
+<p>用户入口：</p>
+<pre><code>zadig-portal：Zadig 前端组件
+kodespace：Zadig 开发者命令行工具
+Zadig Toolkit：vscode 开发者插件
+</code></pre>
+<p>API 网关：</p>
+<pre><code>Gloo Edge：Zadig 的 API 网关组件
+OPA：认证和授权组件
+Dex：Zadig 的身份认证服务，用于连接其他第三方认证系统，比如 AD/LDAP/OAuth2/GitHub/..
+User：用户管理，Token 生成
+</code></pre>
+<p>Zadig 核心业务：</p>
+<pre><code>Picket：数据聚合服务
+Aslan：项目/环境/服务/工作流/构建配置/系统配置等系统功能
+Policy：OPA 数据源，策略注册中心
+Config：系统配置
+</code></pre>
+<p>Workflow Runner：</p>
+<pre><code>warpdrive：工作流引擎，负责 reaper、predator 实例的创建销毁等管理操作
+reaper：负责执行单个工作流作业中的构建、测试等任务
+predator：负责执行单个工作流作业中的镜像分发任务
+plugins：工作流插件
+Jenkins-plugin：用于触发 Jenkins job，显示状态和结果等
+Cron：定时任务，包括环境的回收，K8s 资源的清理等
+NSQ：消息队列（第三方组件）
+</code></pre>
+<p>数据平面：</p>
+<pre><code>MongoDB：业务数据数据库
+MySQL：存储 dex 配置、用户信息的数据库
+</code></pre>
+<p>K8s 集群：Zadig 业务运行在各种云厂商的标准 K8s 集群之上</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://www.qikqiak.com/k3s/devops/zadig/">https://www.qikqiak.com/k3s/devops/zadig/</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://magesfc.github.io">mage</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://magesfc.github.io/mage/9df97ef80a4259b5fb1dfb21e65a56bf93537f27/">https://magesfc.github.io/mage/9df97ef80a4259b5fb1dfb21e65a56bf93537f27/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://magesfc.github.io" target="_blank">马哥私房菜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/devops/">devops</a><a class="post-meta__tags" href="/tags/zadig/">zadig</a></div><div class="post_share"><div class="social-share" data-image="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mage/1dc207672579f74b36792524fc59173d13a83f13/"><img class="prev-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">DevOps系列学习Drone学习之Drone介绍</div></div></a></div><div class="next-post pull-right"><a href="/mage/f9d188073085a5409e9a32a9b901a3e168ceb79e/"><img class="next-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">DevOps系列学习Tekton学习之Tekton介绍</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mage/b38618c7c0891155403a10441a22a817282834a8/" title="DevOps系列学习Drone之drone-runner-exec源码学习"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-16</div><div class="title">DevOps系列学习Drone之drone-runner-exec源码学习</div></div></a></div><div><a href="/mage/1dc207672579f74b36792524fc59173d13a83f13/" title="DevOps系列学习Drone学习之Drone介绍"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-16</div><div class="title">DevOps系列学习Drone学习之Drone介绍</div></div></a></div><div><a href="/mage/f9d188073085a5409e9a32a9b901a3e168ceb79e/" title="DevOps系列学习Tekton学习之Tekton介绍"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-16</div><div class="title">DevOps系列学习Tekton学习之Tekton介绍</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">mage</div><div class="author-info__description"> 这里是 马哥 的个人博客 </div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">197</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">208</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">41</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/mamh2021"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/mamh2021" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#zadig"><span class="toc-number">1.</span> <span class="toc-text">zadig</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Zadig-%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">Zadig 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zadig-%E5%8C%85%E5%90%AB%E5%93%AA%E4%BA%9B%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.2.</span> <span class="toc-text">zadig 包含哪些微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zadig-%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">zadig 架构</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/mage/b38618c7c0891155403a10441a22a817282834a8/" title="DevOps系列学习Drone之drone-runner-exec源码学习"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DevOps系列学习Drone之drone-runner-exec源码学习"/></a><div class="content"><a class="title" href="/mage/b38618c7c0891155403a10441a22a817282834a8/" title="DevOps系列学习Drone之drone-runner-exec源码学习">DevOps系列学习Drone之drone-runner-exec源码学习</a><time datetime="2023-07-16T03:59:52.000Z" title="更新于 2023-07-16 11:59:52">2023-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/1dc207672579f74b36792524fc59173d13a83f13/" title="DevOps系列学习Drone学习之Drone介绍"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DevOps系列学习Drone学习之Drone介绍"/></a><div class="content"><a class="title" href="/mage/1dc207672579f74b36792524fc59173d13a83f13/" title="DevOps系列学习Drone学习之Drone介绍">DevOps系列学习Drone学习之Drone介绍</a><time datetime="2023-07-16T03:59:06.000Z" title="更新于 2023-07-16 11:59:06">2023-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/9df97ef80a4259b5fb1dfb21e65a56bf93537f27/" title="DevOps系列学习Zadig学习之Zadig介绍"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DevOps系列学习Zadig学习之Zadig介绍"/></a><div class="content"><a class="title" href="/mage/9df97ef80a4259b5fb1dfb21e65a56bf93537f27/" title="DevOps系列学习Zadig学习之Zadig介绍">DevOps系列学习Zadig学习之Zadig介绍</a><time datetime="2023-07-16T03:58:31.000Z" title="更新于 2023-07-16 11:58:31">2023-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/f9d188073085a5409e9a32a9b901a3e168ceb79e/" title="DevOps系列学习Tekton学习之Tekton介绍"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="DevOps系列学习Tekton学习之Tekton介绍"/></a><div class="content"><a class="title" href="/mage/f9d188073085a5409e9a32a9b901a3e168ceb79e/" title="DevOps系列学习Tekton学习之Tekton介绍">DevOps系列学习Tekton学习之Tekton介绍</a><time datetime="2023-07-16T03:58:04.000Z" title="更新于 2023-07-16 11:58:04">2023-07-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/63ad9886673c326fd8ed2a7b966d11332377afe9/" title="Docker学习之docker中的DNS解析问题"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Docker学习之docker中的DNS解析问题"/></a><div class="content"><a class="title" href="/mage/63ad9886673c326fd8ed2a7b966d11332377afe9/" title="Docker学习之docker中的DNS解析问题">Docker学习之docker中的DNS解析问题</a><time datetime="2023-07-15T15:53:26.000Z" title="更新于 2023-07-15 23:53:26">2023-07-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By mage</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
