@@ -1,0 +1,315 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Linux学习之bash学习之BashFAQ系列 | 马哥私房菜</title><meta name="author" content="mage"><meta name="copyright" content="mage"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考 https:&#x2F;&#x2F;mywiki.wooledge.org&#x2F;BashFAQ 目录 How can I read a file (data stream, variable) line-by-line (and&#x2F;or field-by-field)? How can I store the return value and&#x2F;or output of a command in a variable?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习之bash学习之BashFAQ系列">
+<meta property="og:url" content="https://magesfc.github.io/mage/f06fdf847c4d532e6210fd256df0aff07f30c88a/">
+<meta property="og:site_name" content="马哥私房菜">
+<meta property="og:description" content="参考 https:&#x2F;&#x2F;mywiki.wooledge.org&#x2F;BashFAQ 目录 How can I read a file (data stream, variable) line-by-line (and&#x2F;or field-by-field)? How can I store the return value and&#x2F;or output of a command in a variable?">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg">
+<meta property="article:published_time" content="2023-08-06T01:39:17.000Z">
+<meta property="article:modified_time" content="2023-08-06T01:40:43.000Z">
+<meta property="article:author" content="mage">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="bash">
+<meta property="article:tag" content="bashfaq">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg"><link rel="shortcut icon" href="http://www.blackshark.com/favicon.ico"><link rel="canonical" href="https://magesfc.github.io/mage/f06fdf847c4d532e6210fd256df0aff07f30c88a/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: mage","link":"链接: ","source":"来源: 马哥私房菜","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux学习之bash学习之BashFAQ系列',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-08-06 09:40:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><style type="text/css">.card-announcement .social-button{margin:.6rem 0 0 0;text-align:center}.card-announcement .social-button a{display:block;background-color:var(--btn-bg);color:var(--btn-color);text-align:center;line-height:2.4;margin:4px 0}.card-announcement .social-button a:hover{background-color:var(--btn-hover-color)}</style><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">259</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">213</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">42</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">马哥私房菜</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-compass"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-book"></i><span> 精选文档</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/21cfbf15/"><span> 🚀 快速开始</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/dc584b87/"><span> 📑 主题页面</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4aa8abbe/"><span> 🛠 主题配置-1</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/ceeb73f/"><span> 🛠 主题配置-2</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/98d20436/"><span> ❓ 主题问答</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/4073eda/"><span> ⚡️ 进阶教程</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://butterfly.js.org/posts/198a4240/"><span> ✨ 更新日志</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://butterfly.js.org/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 其他示例</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux学习之bash学习之BashFAQ系列</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-06T01:39:17.000Z" title="发表于 2023-08-06 09:39:17">2023-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-06T01:40:43.000Z" title="更新于 2023-08-06 09:40:43">2023-08-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Linux学习之bash学习之BashFAQ系列"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>参考 <a target="_blank" rel="noopener" href="https://mywiki.wooledge.org/BashFAQ">https://mywiki.wooledge.org/BashFAQ</a></p>
+<p>目录</p>
+<pre><code>How can I read a file (data stream, variable) line-by-line (and/or field-by-field)?
+How can I store the return value and/or output of a command in a variable?
+How can I sort or compare files based on some metadata attribute (newest / oldest modification time, size, etc)?
+How can I check whether a directory is empty or not? How do I check for any *.mpg files, or count how many there are?
+How can I use array variables?
+How can I use variable variables (indirect variables, pointers, references) or associative arrays?
+Is there a function to return the length of a string?
+How can I recursively search all files for a string?
+What is buffering? Or, why does my command line produce no output: tail -f logfile | grep &#39;foo bar&#39; | awk ...
+How can I recreate a directory hierarchy structure, without the files?
+How can I print the n&#39;th line of a file?
+How do I invoke a shell command from a non-shell application?
+How can I concatenate two variables? How do I append a string to a variable?
+How can I redirect the output of multiple commands at once?
+How can I run a command on all files with the extension .gz?
+How can I use a logical AND/OR/NOT in a shell pattern (glob)?
+How can I group expressions in an if statement, e.g. if (A AND B) OR C?
+How can I use numbers with leading zeros in a loop, e.g. 01, 02?
+How can I split a file into line ranges, e.g. lines 1-10, 11-20, 21-30?
+How can I find and safely handle file names containing newlines, spaces or both?
+How can I replace a string with another string in a variable, a stream, a file, or in all the files in a directory?
+How can I calculate with floating point numbers instead of just integers?
+I want to launch an interactive shell that has special aliases and functions, not the ones in the user&#39;s ~/.bashrc.
+I set variables in a loop that&#39;s in a pipeline. Why do they disappear after the loop terminates? Or, why can&#39;t I pipe data to read?
+How can I access positional parameters after $9?
+How can I randomize (shuffle) the order of lines in a file? Or select a random line from a file, or select a random file from a directory?
+How can two unrelated processes communicate?
+How do I determine the location of my script? I want to read some config files from the same place.
+How can I display the target of a symbolic link?
+How can I rename all my *.foo files to *.bar, or convert spaces to underscores, or convert upper-case file names to lower case?
+What is the difference between test, [ and [[ ?
+How can I redirect the output of &#39;time&#39; to a variable or file?
+How can I find a process ID for a process given its name?
+Can I do a spinner in Bash?
+How can I handle command-line options and arguments in my script easily?
+How can I get all lines that are: in both of two files (set intersection) or in only one of two files (set subtraction).
+How can I print text in various colors?
+How do Unix file permissions work?
+What are all the dot-files that bash reads?
+How do I use dialog to get input from the user?
+How do I determine whether a variable contains a substring?
+How can I find out if a process is still running?
+Why does my crontab job fail? 0 0 * * * some command &gt; /var/log/mylog.`date +%Y%m%d`
+How do I create a progress bar? How do I see a progress indicator when copying/moving files?
+How can I ensure that only one instance of a script is running at a time (mutual exclusion, locking)?
+I want to check to see whether a word is in a list (or an element is a member of a set).
+How can I redirect stderr to a pipe?
+Eval command and security issues
+How can I view periodic updates/appends to a file? (ex: growing log file)
+I&#39;m trying to put a command in a variable, but the complex cases always fail!
+I want history-search just like in tcsh. How can I bind it to the up and down keys?
+How do I convert a file from DOS format to UNIX format (remove CRs from CR-LF line terminators)?
+I have a fancy prompt with colors, and now bash doesn&#39;t seem to know how wide my terminal is. Lines wrap around incorrectly.
+    Escape the colors with \[ \]
+How can I tell whether a variable contains a valid number?
+Tell me all about 2&gt;&amp;1 -- what&#39;s the difference between 2&gt;&amp;1 &gt;foo and &gt;foo 2&gt;&amp;1, and when do I use which?
+How can I untar (or unzip) multiple tarballs at once?
+How can I group entries (in a file by common prefixes)?
+Can bash handle binary data?
+I saw this command somewhere: :()&#123; :|:&amp; &#125; (fork bomb). How does it work?
+I&#39;m trying to write a script that will change directory (or set a variable), but after the script finishes, I&#39;m back where I started (or my variable isn&#39;t set)!
+Is there a list of which features were added to specific releases (versions) of Bash?
+How do I create a temporary file in a secure manner?
+My ssh client hangs when I try to logout after running a remote background job!
+Why is it so hard to get an answer to the question that I asked in #bash?
+Is there a &quot;PAUSE&quot; command in bash like there is in MSDOS batch scripts? To prompt the user to press any key to continue?
+I want to check if [[ $var == foo || $var == bar || $var == more ]] without repeating $var n times.
+How can I trim leading/trailing white space from one of my variables?
+How do I run a command, and have it abort (timeout) after N seconds?
+I want to automate an ssh (or scp, or sftp) connection, but I don&#39;t know how to send the password....
+How do I convert Unix (epoch) times to human-readable values?
+How do I convert an ASCII character to its decimal (or hexadecimal) value and back? How do I do URL encoding or URL decoding?
+How can I ensure my environment is configured for cron, batch, and at jobs?
+How can I use parameter expansion? How can I get substrings? How can I get a file without its extension, or get just a file&#39;s extension? What are some good ways to do basename and dirname?
+How do I get the effects of those nifty Bash Parameter Expansions in older shells?
+How do I use &#39;find&#39;? I can&#39;t understand the man page at all!
+How do I get the sum of all the numbers in a column?
+How do I log history or &quot;secure&quot; bash against history removal?
+I want to set a user&#39;s password using the Unix passwd command, but how do I script that? It doesn&#39;t read standard input!
+How can I grep for lines containing foo AND bar, foo OR bar? Or for files containing foo AND bar, possibly on separate lines? Or files containing foo but NOT bar?
+How can I make an alias that takes an argument?
+How can I determine whether a command exists anywhere in my PATH?
+Why is $(...) preferred over `...` (backticks)?
+How do I determine whether a variable is already defined? Or a function?
+How do I return a string (or large number, or negative number) from a function? &quot;return&quot; only lets me give a number from 0 to 255.
+How to write several times to a fifo without having to reopen it?
+How to ignore aliases, functions, or builtins when running a command?
+How can I get a file&#39;s permissions (or other metadata) without parsing ls -l output?
+How can I avoid losing any history lines?
+I&#39;m reading a file line by line and running ssh or ffmpeg, only the first line gets processed!
+How do I prepend a text to a file (the opposite of &gt;&gt;)?
+I&#39;m trying to get the number of columns or lines of my terminal but the variables COLUMNS / LINES are always empty.
+How do I write a CGI script that accepts parameters?
+How can I set the contents of my terminal&#39;s title bar?
+I want to get an alert when my disk is full (parsing df output).
+I&#39;m getting &quot;Argument list too long&quot;. How can I process a large list in chunks?
+ssh eats my word boundaries! I can&#39;t do ssh remotehost make CFLAGS=&quot;-g -O&quot;!
+How do I determine whether a symlink is dangling (broken)?
+How to add localization support to your bash scripts
+How can I get the newest (or oldest) file from a directory?
+How do I do string manipulations in bash?
+Common utility functions (warn, die)
+How to get the difference between two dates
+How do I check whether my file was modified in a certain month or date range?
+Why doesn&#39;t foo=bar echo &quot;$foo&quot; print bar?
+Why doesn&#39;t set -e (or set -o errexit, or trap ERR) do what I expected?
+Logging! I want to send all of my script&#39;s output to a log file. But I want to do it from inside the script. And I want to see it on the terminal too!
+How do I add a timestamp to every line of a stream?
+How do I wait for several spawned processes?
+How can I tell whether my script was sourced (dotted in) or executed?
+How do I copy a file to a remote system, and specify a remote name which may contain spaces?
+What is the Shellshock vulnerability in Bash?
+What are the advantages and disadvantages of using set -u (or set -o nounset)?
+How do I extract data from an HTML or XML file?
+How do I operate on IP addresses and netmasks?
+How do I make a menu?
+I have two files. The first one contains bad IP addresses (plus other fields). I want to remove all of these bad addresses from a second file.
+I have a pipeline where a long-running command feeds into a filter. If the filter finds &quot;foo&quot;, I want the long-running command to die.
+How do I print the contents of an array in reverse order, or reverse an array?
+What&#39;s the difference between &quot;cmd &lt; file&quot; and &quot;cat file | cmd&quot;? What is a UUOC?
+How can I find out where this strange variable in my interactive shell came from?
+What does value too great for base mean? (Octal values in arithmetic.)
+</code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://magesfc.github.io">mage</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://magesfc.github.io/mage/f06fdf847c4d532e6210fd256df0aff07f30c88a/">https://magesfc.github.io/mage/f06fdf847c4d532e6210fd256df0aff07f30c88a/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://magesfc.github.io" target="_blank">马哥私房菜</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a><a class="post-meta__tags" href="/tags/bash/">bash</a><a class="post-meta__tags" href="/tags/bashfaq/">bashfaq</a></div><div class="post_share"><div class="social-share" data-image="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" src= "/img/loading.gif" data-lazy-src="/null" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mage/703b8f936b59726b224b676a7d61ff0d35661efa/"><img class="prev-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Gerrit学习之修改编译gerrit源码</div></div></a></div><div class="next-post pull-right"><a href="/mage/37c0f19f402b97e491c7bc3aae48061d46ddc09a/"><img class="next-cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JPA学习之JSP对象持久化API总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mage/8facee0ca4bc4450ba21eea69a97fe1891c415dc/" title="Linux学习之bash学习之bash_strict_mode"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-13</div><div class="title">Linux学习之bash学习之bash_strict_mode</div></div></a></div><div><a href="/mage/29b1dee9b6336ea01be4716d95ecfbad663018d6/" title="Linux学习之bash学习之几个特殊变量"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之bash学习之几个特殊变量</div></div></a></div><div><a href="/mage/0158e8186f0827d0b00df276735e46e876749b88/" title="Linux学习之bash学习之在bash中&#x3D;和&#x3D;~的区别"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之bash学习之在bash中&#x3D;和&#x3D;~的区别</div></div></a></div><div><a href="/mage/53776646b88e8b3c368d34d9936b880421441770/" title="Linux学习之bash学习之在bash中Quoting的解释"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-06</div><div class="title">Linux学习之bash学习之在bash中Quoting的解释</div></div></a></div><div><a href="/mage/a718e01bee375dd72d94fd15211e2e4f41c0a52c/" title="Linux学习之bash学习之cookbook技巧"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之bash学习之cookbook技巧</div></div></a></div><div><a href="/mage/bead5c222ebd755a0ea0b8165ff0663545d6c700/" title="Linux学习之10个有用的链式操作符及其实例"><img class="cover" src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Linux学习之10个有用的链式操作符及其实例</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/img/loading.gif" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">mage</div><div class="author-info__description"> 这里是 马哥 的个人博客 </div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">259</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">213</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">42</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/mamh2021"><i class="fab fa-github"></i><span>GitHub</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/mamh2021" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/mage/5fdea0e0afeb79b51d1f69e4243be1023c59912b/" title="Android下的配置管理之道之repo的使用"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Android下的配置管理之道之repo的使用"/></a><div class="content"><a class="title" href="/mage/5fdea0e0afeb79b51d1f69e4243be1023c59912b/" title="Android下的配置管理之道之repo的使用">Android下的配置管理之道之repo的使用</a><time datetime="2023-08-07T00:14:05.000Z" title="更新于 2023-08-07 08:14:05">2023-08-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/5be1ab69edf5993aecb2f7bbc86b671f0cf11c21/" title="JavaWeb学习总结之Servlet"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb学习总结之Servlet"/></a><div class="content"><a class="title" href="/mage/5be1ab69edf5993aecb2f7bbc86b671f0cf11c21/" title="JavaWeb学习总结之Servlet">JavaWeb学习总结之Servlet</a><time datetime="2023-08-06T02:08:29.000Z" title="更新于 2023-08-06 10:08:29">2023-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/c0eafd3f5a2f17ea573cf9de8dd49552a3950b42/" title="JavaWeb学习总结之Servlet监听器"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb学习总结之Servlet监听器"/></a><div class="content"><a class="title" href="/mage/c0eafd3f5a2f17ea573cf9de8dd49552a3950b42/" title="JavaWeb学习总结之Servlet监听器">JavaWeb学习总结之Servlet监听器</a><time datetime="2023-08-06T02:08:19.000Z" title="更新于 2023-08-06 10:08:19">2023-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/5935f54e2073085dfb43475935260c2963d288ee/" title="JavaWeb学习总结之JSP"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb学习总结之JSP"/></a><div class="content"><a class="title" href="/mage/5935f54e2073085dfb43475935260c2963d288ee/" title="JavaWeb学习总结之JSP">JavaWeb学习总结之JSP</a><time datetime="2023-08-06T02:08:10.000Z" title="更新于 2023-08-06 10:08:10">2023-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/mage/fb4f3e1d56130398f144b71b902495d99de79e37/" title="JavaWeb学习总结之文件的上传和下载"><img src= "/img/loading.gif" data-lazy-src="https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb学习总结之文件的上传和下载"/></a><div class="content"><a class="title" href="/mage/fb4f3e1d56130398f144b71b902495d99de79e37/" title="JavaWeb学习总结之文件的上传和下载">JavaWeb学习总结之文件的上传和下载</a><time datetime="2023-08-06T02:07:58.000Z" title="更新于 2023-08-06 10:07:58">2023-08-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://office-1256119282.file.myqcloud.com/2022/official-web/cdn/20220301/pc_bg_05.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By mage</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
