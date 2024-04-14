@@ -677,9 +677,9 @@ This one-liner leaves one blank line at the end of the file, if there are multip
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed &#x27;/^From: */!d; s///; q&#x27;</span><br></pre></td></tr></table></figure>
 <p>This one liner is equivalent to the previous one, except it prints sender information from email.</p>
 </li>
-<li><p>Extract email address from a “Name Surname <a href="mailto:&#x65;&#x6d;&#x61;&#105;&#108;&#x40;&#x64;&#111;&#x6d;&#97;&#x69;&#110;&#46;&#x63;&#x6f;&#x6d;">&#x65;&#x6d;&#x61;&#105;&#108;&#x40;&#x64;&#111;&#x6d;&#97;&#x69;&#110;&#46;&#x63;&#x6f;&#x6d;</a>“ string.</p>
+<li><p>Extract email address from a “Name Surname <a href="mailto:&#x65;&#109;&#97;&#x69;&#108;&#x40;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#x63;&#111;&#x6d;">&#x65;&#109;&#97;&#x69;&#108;&#x40;&#100;&#111;&#109;&#97;&#105;&#110;&#46;&#x63;&#111;&#x6d;</a>“ string.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed &#x27;s/.*&lt; *//;s/ *&gt;.*//;</span><br></pre></td></tr></table></figure>
-<p>This one-liner strips all symbols before &lt; symbol (and any whitespace after it), and stips all symbols after &gt; symbol (including whitespace before it). That’s it. What’s left is <a href="mailto:&#101;&#x6d;&#x61;&#105;&#108;&#64;&#100;&#x6f;&#x6d;&#97;&#x69;&#x6e;&#x2e;&#99;&#111;&#x6d;">&#101;&#x6d;&#x61;&#105;&#108;&#64;&#100;&#x6f;&#x6d;&#97;&#x69;&#x6e;&#x2e;&#99;&#111;&#x6d;</a>.</p>
+<p>This one-liner strips all symbols before &lt; symbol (and any whitespace after it), and stips all symbols after &gt; symbol (including whitespace before it). That’s it. What’s left is <a href="mailto:&#x65;&#109;&#97;&#105;&#108;&#64;&#x64;&#x6f;&#109;&#x61;&#x69;&#110;&#46;&#99;&#x6f;&#109;">&#x65;&#109;&#97;&#105;&#108;&#64;&#x64;&#x6f;&#109;&#x61;&#x69;&#110;&#46;&#99;&#x6f;&#109;</a>.</p>
 </li>
 <li><p>Add a leading angle bracket and space to each line (quote an email message).</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed &#x27;s/^/&gt; /&#x27;</span><br></pre></td></tr></table></figure>
